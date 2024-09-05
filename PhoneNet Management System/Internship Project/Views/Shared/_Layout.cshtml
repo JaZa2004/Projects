@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - VanriseInternship</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- Font Awesome CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <div id="navBar">
+        <div id="title">
+            <h1>Vanrise InternShip Project</h1>
+        </div>
+        <div id="nav">
+            <a href="/Home/Devices" class="@(ViewBag.title == "Devices" ? "active" : "")">Devices</a>
+            <a href="/Home/Client" class="@(ViewBag.title=="Clients"? "active" :"")">Clients</a>
+            <a href="/Home/PhoneNumbers" class="@(ViewBag.title=="PhoneNumbers"? "active" :"")">PhoneNumbers</a>
+            <a href="/Home/Reservations" class="@(ViewBag.title=="Reservations"? "active" :"")">Reservations</a>
+            <a href="/Home/ClientReport" class="@(ViewBag.title=="ClientReport"|| ViewBag.title=="DeviceReport"? "active" :"")">Report</a>
+            <a href="/Home/Login" style="color:red;border:1px solid red;padding:5px">Logout</a>
+        </div>
+    </div>
+    @RenderBody()
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,73 @@
+﻿@model Task_Management.Models.User
+
+@{
+    ViewData["Title"] = "User Details";
+    var user = ViewData["user"] as Task_Management.Models.User;
+}
+
+<h1 class="my-4 text-center">User Profile</h1>
+
+<div class="card mb-4 shadow-sm">
+    <div class="card-header bg-dark text-white">
+        <h4>@user.FirstName @user.LastName</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="~/assets/avatar.png"class="rounded-circle img-fluid mb-3 profile-picture" alt="Profile Picture">
+                <h5 class="card-title">@user.Username</h5>
+                <p class="text-muted">@user.Role</p>
+            </div>
+            <div class="col-md-8">
+                <dl class="row">
+                    <dt class="col-sm-4">First Name</dt>
+                    <dd class="col-sm-8">@user.FirstName</dd>
+
+                    <dt class="col-sm-4">Last Name</dt>
+                    <dd class="col-sm-8">@user.LastName</dd>
+
+                    <dt class="col-sm-4">Email</dt>
+                    <dd class="col-sm-8">@user.Email</dd>
+
+                    <dt class="col-sm-4">Phone Number</dt>
+                    <dd class="col-sm-8">@user.PhoneNumber</dd>
+
+                    <dt class="col-sm-4">Date of Birth</dt>
+                    <dd class="col-sm-8">@user.DateOfBirth.ToShortDateString()</dd>
+
+                    <dt class="col-sm-4">Date of Joining</dt>
+                    <dd class="col-sm-8">@user.DateOfJoining.ToShortDateString()</dd>
+                </dl>
+                <div class="d-flex justify-content-end">
+                    <a asp-action="Edit" asp-route-id="@user.UserId" class="btn btn-warning mr-2">Edit</a>
+                    <a asp-action="IndexAdmin" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .card {
+        border-radius: 10px;
+    }
+
+    .card-header {
+        border-radius: 10px 10px 0 0;
+    }
+
+    .profile-picture {
+        width: 100px;
+        height: 100px;
+        border: 5px solid #343a40;
+    }
+
+    .btn {
+        border-radius: 20px;
+    }
+
+    h1 {
+        font-family: 'Arial Black', Gadget, sans-serif;
+        color: #343a40;
+    }
+
+</style>

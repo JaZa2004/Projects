@@ -1,0 +1,128 @@
+﻿@{
+    ViewData["Title"] = "Employees";
+    var employees = ViewBag.Employees as IEnumerable<Task_Management.Models.User>;
+}
+
+<h1 class="my-4 text-center">Team</h1>
+
+<div class="d-flex justify-content-center mb-3">
+    <a asp-action="Create" class="btn btn-primary btn-lg">Create New</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover mt-3">
+        <thead class="thead-dark">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (employees != null)
+            {
+                foreach (var item in employees)
+                {
+                    <tr>
+                        <td>@item.FirstName</td>
+                        <td>@item.LastName</td>
+                        <td>@item.Email</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.UserId" class="btn btn-sm btn-warning mr-2">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.UserId" class="btn btn-sm btn-info mr-2">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.UserId" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center">No employees found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    h1 {
+        font-family: 'Arial Black', Gadget, sans-serif;
+        color: #343a40;
+    }
+
+    .table {
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+
+        .table thead th {
+            background-color: #343a40;
+            color: #fff;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .table tbody tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+            .table tbody tr:last-child {
+                border-bottom: none;
+            }
+
+        .table td, .table th {
+            padding: 1.5rem 0.75rem; /* Increased padding for larger height */
+            vertical-align: middle;
+            border-top: 1px solid #eee; /* Light inner border */
+        }
+
+    .btn {
+        border-radius: 30px;
+        min-width: 80px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+
+    .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+        .btn-info:hover {
+            background-color: #138496;
+            border-color: #117a8b;
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+</style>

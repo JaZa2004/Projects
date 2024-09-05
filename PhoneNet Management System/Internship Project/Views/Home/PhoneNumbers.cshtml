@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "PhoneNumbers";
+}
+<link href="~/Content/indexStyle.css" rel="stylesheet" />
+<main ng-app="PhoneNumbersApp">
+    <h2>
+        <i class="fa fa-phone"></i>
+        Phone Numbers Page
+    </h2>
+    <div ng-controller="PhoneNumbersController" class="container">
+        <div class="notification" ng-if="notificationMessage" ng-class="{'fade-out': fadeOut}">
+            {{ notificationMessage }}
+        </div>
+        <div class="container-header">
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search for a Number..." ng-model="searchNumber" style="width:48%;" ng-change="filter()">
+                <device-filter selected-device="searchDevice" on-filter-change="filter()"></device-filter>
+            </div>
+
+            <div class="ButtonsDiv">
+                <button id="addDevice" class="btn btn-custom" ng-click="openModal()">Add a Phone Number</button>
+            </div>
+        </div>
+        <script type="text/ng-template" id="PhoneNumberModal.html">
+            <div class="duplicateError" ng-show="DuplicateFound">
+                <p class="duplicateText">Couldn't Complete Operation ! This Number is Already Added</p>
+            </div>
+            <div class="modal-header">
+                <h3 class="modal-title">{{Title}}</h3>
+            </div>
+            <div class="modal-body" style="text-align:left">
+                <div class="label-input">
+                    <label>Phone Number</label>
+                    <div class="input-error">
+                        <input type="text" ng-model="phoneNumber.Number" placeholder="Fill in the Number" ng-change="DisableButton()"/>
+                        <div ng-if="errorMessageNumber && clicked && !phoneNumber.Number">
+                            <p class="errorMessage" ng-bind="errorMessageNumber"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="label-input">
+                    <label>Device Name</label>
+                    <div class="input-error">
+                        <device-filter selected-device="phoneNumber.Device"></device-filter>
+                        <div ng-if="errorMessageDevice && clicked && !phoneNumber.Device">
+                            <p class="errorMessage" ng-bind="errorMessageDevice"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="save()" ng-disabled="ButtonDisable">OK</button>
+                <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+            </div>
+        </script>
+
+        <div class="container-body">
+            <table id="DevicesTable">
+                <tr>
+                    <th>ID</th>
+                    <th>Number</th>
+                    <th>Device</th>
+                    <th>Actions</th>
+                </tr>
+                <tr ng-repeat="number in filteredphonenumbers" ng-if="!loading">
+                    <td ng-bind="number.Id" style="font-weight:bold;"></td>
+                    <td ng-bind="number.Number"></td>
+                    <td ng-bind="number.Device.Name"></td>
+                    <td><button class="btn editbutton" ng-click="openModal(number)">Edit</button></td>
+                </tr>
+                <tr ng-if="loading">
+                    <td colspan="5" class="loading-cell">
+                        <div class="loader"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</main>
+<script src="~/Scripts/phoneNumberScript.js"></script>
+<script src="~/Scripts/DeviceTypeSelector.js"></script>

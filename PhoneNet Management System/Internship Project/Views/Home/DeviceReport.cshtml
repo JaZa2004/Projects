@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "DeviceReport";
+}
+
+<link href="~/Content/indexStyle.css" rel="stylesheet" />
+<main ng-app="DeviceReportApp">
+    <h2><a href="/Home/ClientReport"><i class="fa fa-file-text"></i>Client Report</a>  |  <a href="/Home/DeviceReport" class="@(ViewBag.Title=="DeviceReport"? "active":"")">Device Report</a></h2>
+    <div ng-controller="DeviceReportController" class="container">
+        <div class="container-body">
+            <table id="DevicesTable">
+                <tr>
+                    <th style="width:30%;">
+                        Device<br />
+                        <device-filter selected-device="deviceFilter" on-filter-change="filter()"></device-filter>
+                    </th>
+                    <th style="width:35%">
+                        Phone Numbers Status<br />
+                        <phone-number-status-selector selected-status="status" on-change="filter()"></phone-number-status-selector>
+                    </th>
+                    <th>Respective Number of PhoneNumbers</th>
+                </tr>
+                <tr ng-repeat="statistic in filteredstatistics" ng-if="(statistic.nbNonReservedPn>0 || statistic.nbReservedPn>0) && !loading">
+                    <td>{{statistic.device.Name}}</td>
+
+
+                    <td ng-if="statistic.nbReservedPn>0 && statistic.nbNonReservedPn>0">Reserved  |  NonReserved</td>
+                    <td ng-if="statistic.nbReservedPn>0 && statistic.nbNonReservedPn>0">{{statistic.nbReservedPn}}  |  {{statistic.nbNonReservedPn}}</td>
+
+
+
+                    <td ng-if="statistic.nbReservedPn==0 && statistic.nbNonReservedPn==0"></td>
+                    <td ng-if="statistic.nbReservedPn==0 && statistic.nbNonReservedPn==0"></td>
+
+
+
+                    <td ng-if="!(statistic.nbReservedPn>0 && statistic.nbNonReservedPn>0) && statistic.nbReservedPn>0">Reserved</td>
+                    <td ng-if="!(statistic.nbReservedPn>0 && statistic.nbNonReservedPn>0) && statistic.nbReservedPn>0">{{statistic.nbReservedPn}}</td>
+
+
+                    <td ng-if="!(statistic.nbReservedPn>0 && statistic.nbNonReservedPn>0) && statistic.nbNonReservedPn>0">NonReserved</td>
+                    <td ng-if="!(statistic.nbReservedPn>0 && statistic.nbNonReservedPn>0) && statistic.nbNonReservedPn>0">{{statistic.nbNonReservedPn}}</td>
+                </tr>
+                <tr ng-if="loading">
+                    <td colspan="5" class="loading-cell">
+                        <div class="loader"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</main>
+<script src="~/Scripts/deviceReportScript.js"></script>
+<script src="~/Scripts/PhoneNumberStatusSelector.js"></script>
+<script src="~/Scripts/DeviceTypeSelector.js"></script>

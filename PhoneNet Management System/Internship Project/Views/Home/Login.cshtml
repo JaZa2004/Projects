@@ -1,0 +1,240 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="~/Scripts/LoginScript.js"></script>
+</head>
+<body ng-app="LoginApp">
+    <div id="container">
+        <div id="logindiv" class="form-div" ng-controller="LoginController">
+            <div class="top">
+                <img src="~/Content/images/user.png" />
+            </div>
+            <div class="bottom">
+                <input type="text" placeholder="Enter your Username" ng-model="Username" />
+                <div ng-if="errorMessageUsername && clicked && !Username">
+                    <p ng-bind="errorMessageUsername" class="errorMessage"></p>
+                </div>
+                <input type="password" placeholder="Enter your password" ng-model="Password" />
+                <div ng-if="errorMessagePassword && clicked && !Password">
+                    <p ng-bind="errorMessagePassword" class="errorMessage"></p>
+                </div>
+                <div ng-if="errorMessageGeneral">
+                    <p ng-bind="errorMessageGeneral" class="errorMessage"></p>
+                </div>
+                <input type="button" value="Login" ng-click="login()" />
+            </div>
+        </div>
+        <div id="registerdiv" class="form-div" ng-controller="RegisterController">
+            <div class="top">
+                <img src="~/Content/images/user.png" />
+            </div>
+            <div class="bottom">
+                <input type="text" placeholder="Enter your Username" ng-model="Username" />
+                <div ng-if="errorMessageUsername && clicked && !Username">
+                    <p ng-bind="errorMessageUsername" class="errorMessage"></p>
+                </div>
+                <input type="password" placeholder="Enter your password" ng-model="Password" />
+                <div ng-if="errorMessagePassword && clicked && !Password">
+                    <p ng-bind="errorMessagePassword" class="errorMessage"></p>
+                </div>
+                <input type="password" placeholder="Confirm your password" ng-model="ConfirmPassword" />
+                <div ng-if="errorMessageConfirmPassword && clicked && !ConfirmPassword">
+                    <p ng-bind="errorMessageConfirmPassword" class="errorMessage"></p>
+                </div>
+                <div ng-if="errorMessageGeneral && clicked">
+                    <p ng-bind="errorMessageGeneral" class="errorMessage"></p>
+                </div>
+                <input type="button" value="Register" ng-click="register()" />
+            </div>
+        </div>
+    </div>
+    <div>
+        <p id="loginlabel" style="display:none">----Already have an Account? LogIn-----</p>
+        <button id="loginlink" style="display:none">Login</button>
+    </div>
+    <div>
+        <p id="registerlabel">----Don't have an Account?-----</p>
+        <button id="registerlink">Register</button>
+    </div>
+    <script>
+        document.getElementById("registerlink").addEventListener('click', function () {
+            document.getElementById("container").classList.add('show-register');
+            document.getElementById("registerlink").style.display = 'none';
+            document.getElementById("registerlabel").style.display = 'none';
+            document.getElementById("loginlink").style.display = 'block';
+            document.getElementById("loginlabel").style.display = 'block';
+
+        });
+        document.getElementById("loginlink").addEventListener('click', function () {
+            document.getElementById("container").classList.remove('show-register');
+            document.getElementById("registerlink").style.display = 'block';
+            document.getElementById("registerlabel").style.display = 'block';
+            document.getElementById("loginlink").style.display = 'none';
+            document.getElementById("loginlabel").style.display = 'none';
+        });
+    </script>
+</body>
+</html>
+<style>
+    body, html {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    body {
+        margin: 0;
+        background-image: url("/Content/images/login-wallpaper.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /*#container {
+        position: relative;
+        width: 30%;
+        height: 80%;
+        border-radius: 30px;
+        perspective: 1000px;
+        overflow: hidden;
+    }
+
+    .form-div {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        border: 4px solid white;
+        border-radius: 30px;
+        padding: 20px;
+        backface-visibility: hidden;
+        transition: transform 0.6s ease, opacity 0.6s ease;
+    }*/
+    #container {
+        position: relative;
+        width: 30%;
+        height: 74%;
+        border-radius: 30px;
+        perspective: 1000px;
+        box-shadow: 0 0 0 4px white; /* Use a box shadow to simulate the border */
+    }
+
+    .form-div {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 30px;
+        backface-visibility: hidden;
+        transition: transform 0.6s ease, opacity 0.6s ease;
+    }
+
+
+    #logindiv {
+        transform: rotateY(0deg);
+        opacity: 1;
+    }
+
+    #registerdiv {
+        transform: rotateY(180deg);
+        opacity: 0;
+    }
+
+    #container.show-register #logindiv {
+        transform: rotateY(-180deg);
+        opacity: 0;
+    }
+
+    #container.show-register #registerdiv {
+        transform: rotateY(0deg);
+        opacity: 1;
+    }
+
+    .bottom {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 70%;
+    }
+
+        .bottom input {
+            width: 70%;
+            height: 35px;
+            border: 2px solid white;
+            border-radius: 20px;
+            margin: 10px 0 5px 0;
+            font-size: 17px;
+            padding-left: 10px;
+            font-weight: bold;
+        }
+
+            .bottom input::placeholder {
+                font-size: 17px;
+            }
+
+    .errorMessage {
+        color: orangered;
+        text-decoration: none;
+        font-size: 20px;
+        margin: 0;
+        text-align: left;
+    }
+
+    .top {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 30%;
+        margin-top: 20px;
+    }
+
+        .top img {
+            border-radius: 50%;
+            width: 40%;
+            border: 6px solid white;
+        }
+
+    p {
+        color: white;
+        font-size: 20px;
+    }
+
+    input[type="button"] {
+        color: white;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        background-color: transparent;
+    }
+
+        input[type="button"]:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+    button {
+        width: 100%;
+        border: none;
+        border-radius: 20px;
+        font-size: 20px;
+        padding: 2px;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+        button:hover {
+            background-color: rgb(0,0,0,0.7);
+            color: white;
+        }
+</style>

@@ -1,0 +1,172 @@
+﻿@model IEnumerable<Task_Management.Models.Task>
+
+@{
+    ViewData["Title"] = "Index";
+    var tasks = ViewBag.tasks as IEnumerable<Task_Management.Models.Task>;
+    var isAdmin = User.IsInRole("Admin");
+    var completedTasks = tasks?.Where(t => t.CompletedByEmployee).ToList();
+    var incompleteTasks = tasks?.Where(t => !t.CompletedByEmployee).ToList();
+}
+
+<h1 class="my-4 text-center">Task Management</h1>
+
+@if (tasks == null || !tasks.Any())
+{
+    <div class="alert alert-danger text-center">
+        <h4>No Tasks</h4>
+    </div>
+    @if (User.IsInRole("Admin") && ViewBag.CurrentPage != "Tasks")
+    {
+    <a href="/Projects/Details/@tasks.FirstOrDefault().ProjectId"><button type="button" class="btn btn-secondary">Back</button></a>
+    
+    }
+
+}
+else
+{
+    <div class="container">
+        @if (completedTasks.Any())
+        {
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h2 class="card-title">Completed Tasks</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Task Name</th>
+                                    <th>Project</th>
+                                    <th>Approval Status</th>
+                                    <th>Start Date</th>
+                                    <th>Completed</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in completedTasks)
+                                {
+                                    <tr>
+                                        <td>@task.TaskName</td>
+                                        <td>@(task.Project != null ? task.Project.ProjectName : "N/A")</td>
+                                        <td>
+                                            @if (task.ApprovedByAdmin == "Approved")
+                                            {
+                                                <button class="btn btn-success" disabled>Approved</button>
+                                            }
+                                            else if (task.ApprovedByAdmin == "waitinguser")
+                                            {
+                                                <button class="btn btn-primary" disabled>Waiting Employee</button>
+                                            }
+                                            else if (task.ApprovedByAdmin == "pending")
+                                            {
+                                                <button class="btn btn-success" disabled>Pending</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-danger" disabled>Not Approved</button>
+                                            }
+                                        </td>
+                                        <td>@task.CreatedDate.ToShortDateString()</td>
+                                        <td>@task.DeadlineDate?.ToShortDateString()</td>
+                                        <td>
+                                            <a href="/Tasks/EditTask/@task.TaskId" class="btn btn-primary">View</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (incompleteTasks.Any())
+        {
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-danger text-white">
+                    <h2 class="card-title">Not Completed Tasks</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Task Name</th>
+                                    <th>Project</th>
+                                    <th>Approval Status</th>
+                                    <th>Created Date</th>
+                                    <th>Deadline Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var task in incompleteTasks)
+                                {
+                                    <tr>
+                                        <td>@task.TaskName</td>
+                                        <td>@(task.Project != null ? task.Project.ProjectName : "N/A")</td>
+                                        <td>
+                                            @if (task.ApprovedByAdmin == "Approved")
+                                            {
+                                                <button class="btn btn-success" disabled>Approved</button>
+                                            }
+                                            else if (task.ApprovedByAdmin == "waitinguser")
+                                            {
+                                                <button class="btn btn-danger" disabled>Waiting Employee</button>
+                                            }
+                                            else if (task.ApprovedByAdmin == "pending")
+                                            {
+                                                <button class="btn btn-success" disabled>Pending</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-danger" disabled>Not Approved</button>
+                                            }
+                                        </td>
+                                        <td>@task.CreatedDate.ToShortDateString()</td>
+                                        <td>@task.DeadlineDate?.ToShortDateString()</td>
+                                        <td>
+                                            <a href="/Tasks/EditTask/@task.TaskId" class="btn btn-primary">View</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        @if(User.IsInRole("Admin") && ViewBag.CurrentPage!="Tasks"){
+        <a href="/Projects/Details/@tasks.FirstOrDefault().ProjectId"><button type="button" class="btn btn-secondary">Back</button></a>
+        }
+    </div>
+}
+
+<style>
+    h1 {
+        font-family: 'Arial Black', Gadget, sans-serif;
+        color: #343a40;
+    }
+    .card-title {
+        font-size: 1.5rem;
+    }
+
+    .table thead th {
+        background-color: #f8f9fa;
+    }
+
+    .table tbody tr {
+        transition: background-color 0.3s;
+    }
+
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+    .btn {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+</style>

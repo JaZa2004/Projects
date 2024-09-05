@@ -1,0 +1,116 @@
+﻿@{
+    ViewData["Title"] = "Project Details";
+    var project = ViewData["project"] as Task_Management.Models.Project;
+}
+
+<h1 class="my-4 text-center">Project Details</h1>
+
+<div class="container">
+    <div class="card shadow-sm" style="border-radius:0">
+        <div class="card-header bg-dark text-white">
+            <h4>@project.ProjectName</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <dl class="row">
+                        <dt class="col-sm-3">Project Name</dt>
+                        <dd class="col-sm-9">@project.ProjectName</dd>
+
+                        <dt class="col-sm-3">Description</dt>
+                        <dd class="col-sm-9">@project.Description</dd>
+
+                        <dt class="col-sm-3">Created Date</dt>
+                        <dd class="col-sm-9">@project.CreatedDate.ToString("yyyy-MM-dd")</dd>
+
+                        <dt class="col-sm-3">End Date</dt>
+                        <dd class="col-sm-9">@project.EndDate.ToString("yyyy-MM-dd")</dd>
+                    </dl>
+                </div>
+                <div class="col-md-4">
+                    <!-- Add any additional information or widgets here -->
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <a asp-action="Edit" asp-route-id="@project.ProjectId" class="btn btn-primary">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            <a href="/Tasks/addTask/@project.ProjectId" class="btn btn-info">Add Task</a>
+            <a href="/Tasks/ViewProjectTasks/@project.ProjectId" class="btn btn-success">View Tasks</a>
+        </div>
+    </div>
+</div>
+<style>
+    .card {
+        border-radius: 10px;
+    }
+
+    .card-header {
+        border-radius: 10px 10px 0 0;
+    }
+
+    .card-footer {
+        border-radius: 0 0 10px 10px;
+        background-color: #f8f9fa;
+        padding: 10px 20px;
+    }
+
+    .btn {
+        border-radius: 20px;
+        margin-right: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+        .btn-info:hover {
+            background-color: #138496;
+            border-color: #117a8b;
+        }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+    .dl-horizontal dt {
+        width: 150px;
+    }
+
+    .dl-horizontal dd {
+        margin-left: 180px; /* Adjust as needed */
+    }
+
+    h1 {
+        font-family: 'Arial Black', Gadget, sans-serif;
+        color: #343a40;
+    }
+
+</style>

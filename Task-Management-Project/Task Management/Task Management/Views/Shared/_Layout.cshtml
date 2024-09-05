@@ -1,0 +1,90 @@
+﻿@using System.Security.Claims
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-w+8jkCXg3s79u2bn+p8y5i1QOoYq9JmywCtVmGZnsMK1vE0AyVf5ebqx+cSfu6BZZzbg7izK+1kr6YIXkSoqIQ==" crossorigin="anonymous" />
+    <title>Task Management System</title>
+    <title>@ViewData["Title"] - Task_Management</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Task_Management.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <section id="sidebar">
+        <a href="#" class="brand">
+            <i class='bx bxs-smile'></i>
+            <span class="text">@(User.IsInRole("Admin") ? "Admin" : "Employee")</span>
+        </a>
+        <ul class="side-menu top">
+            @if (User.IsInRole("Admin"))
+            {
+                <li class="@(ViewBag.CurrentPage == "Team" ? "active" : "")">
+                    <a href="/Users/IndexAdmin">
+                        <i class='bx bxs-group'></i>
+                        <span class="text">Team</span>
+                    </a>
+                </li>
+                <li class="@(ViewBag.CurrentPage == "Projects" ? "active" : "")">
+                    <a href="/Projects/Index">
+                        <i class='bx bxs-dashboard'></i>
+                        <span class="text">Projects</span>
+                    </a>
+                </li>
+
+                <li class="@(ViewBag.CurrentPage == "Tasks" ? "active" : "")">
+                    <a href="/Tasks/ViewProjectTasks">
+                    <i class='bx bxs-check-circle'></i>
+                    <span class="text">All Tasks</span>
+                </a>
+                </li>
+            }
+            else
+            {
+                <li class="@(ViewBag.CurrentPage == "Tasks" ? "active" : "")">
+                    <a href="/Tasks/Index">
+                        <i class='bx bxs-check-circle'></i>
+                        <span class="text">My Tasks</span>
+                    </a>
+                </li>
+            }
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="/Users/Logout" class="logout" id="logoutlink" onclick="clearStorage()">
+                    <i class='bx bxs-log-out-circle'></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <section id="content">
+        <nav class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <i class='bx bx-menu'></i>
+                <h5 class="m-5">Welcome @User.Identity.Name</h5>
+            </div>
+            <div class="d-flex align-items-center">
+                <input type="checkbox" id="switch-mode" hidden>
+                <label for="switch-mode" class="switch-mode mr-2"></label>
+                <a href="/Users/Edit/@(User.FindFirstValue(ClaimTypes.NameIdentifier))" class="profile">
+                    <img src="~/assets/image.png" alt="Profile Image" class="m-2">
+                </a>
+            </div>
+        </nav>
+
+
+        <main>
+            @RenderBody()
+        </main>
+    </section>
+
+
+    <script src="~/js/site.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

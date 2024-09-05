@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "Devices";
+}
+<link href="~/Content/indexStyle.css" rel="stylesheet" />
+<main ng-app="deviceApp">
+    <h2>
+        <i class="fa fa-mobile"></i>
+        Devices Page
+    </h2>
+    <div ng-controller="DeviceController" class="container">
+        <div class="notification" ng-if="notificationMessage" ng-class="{'fade-out': fadeOut}">
+            {{ notificationMessage }}
+        </div>
+        <div class="container-header">
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Type here..." ng-model="searchtext">
+                <i class="fa fa-search search-icon" ng-click="searchDevice()"></i>
+            </div>
+            <div class="ButtonsDiv">
+                <button id="addDevice" class="btn btn-custom" ng-click="openModal()">Add a new Device</button>
+            </div>
+        </div>
+        <script type="text/ng-template" id="deviceModal.html">
+            <div class="duplicateError" ng-show="DuplicateFound">
+                <p class="duplicateText">Couldn't Complete Operation ! A device with the Same Name is Found</p>
+            </div>
+            <div class="modal-header">
+                <h3 class="modal-title">{{Title}}</h3>
+            </div>
+            <div class="modal-body">
+                <div class="label-input">
+                    <label for="deviceName">Device Name:</label>
+                    <div class="input-error">
+                        <input type="text" ng-model="Name" id="deviceName" placeholder="Type in the Name..." ng-change="DisableButton()">
+                        <div ng-if="errorMessageName && clicked && !Name">
+                            <p class="errorMessage" ng-bind="errorMessageName"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="save()" ng-disabled="ButtonDisable">OK</button>
+                <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+            </div>
+        </script>
+        <script type="text/ng-template" id="PhoneModal.html">
+            <div class="duplicateError" ng-show="DuplicateFound">
+                <p class="duplicateText">Couldn't Complete Operation ! A device with the Same Name is Found</p>
+            </div>
+            <div class="modal-header">
+                <h3 class="modal-title">{{Title}}</h3>
+            </div>
+            <div class="modal-body">
+                <div class="label-input">
+                    <label for="PhoneNumber">Device Name:</label>
+                    <div class="input-error">
+                        <input type="text" ng-model="Number" id="PhoneNumber" placeholder="Type in the Number..." ng-change="DisableButton()">
+                        <div ng-if="errorMessageNumber && clicked && !Number">
+                            <p class="errorMessage" ng-bind="errorMessageNumber"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="save()" ng-disabled="ButtonDisable">OK</button>
+                <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+            </div>
+        </script>
+        <div class="container-body">
+            <table id="DevicesTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat-start="device in filteredDevices track by $index" ng-if="!loading">
+                        <td>
+                            <span ng-if="device.phoneNumbers.length > 0" ng-click="togglePhoneNumbers(device, $index)" class="arrow" ng-class="{'arrow-rotated': device.showPhoneNumbers}">▶</span>
+                        </td>
+                        <td style="font-weight:bold;">{{device.id}}</td>
+                        <td ng-bind="device.Name"></td>
+                        <td>
+                            <button class="btn editbutton" ng-click="openModal(device)" ng-disabled="isDisabled($index)">Edit</button>
+                        </td>
+                    </tr>
+                    <tr ng-repeat-end ng-if="device.showPhoneNumbers && device.phoneNumbers.length > 0" ng-class="{'slide-down': device.showPhoneNumbers, 'slide-up': !device.showPhoneNumbers}">
+                        <td colspan="4" class="td-subdata">
+                            <table class="subdata-table">
+                                <thead>
+                                    <tr>
+                                        <th>Number</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="phone in device.phoneNumbers">
+                                        <td>{{ phone.Number }}</td>
+                                        <td>
+                                            <button class="btn editbutton" ng-click="openPhoneModal(phone)">Edit</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr ng-if="loading">
+                        <td colspan="5" class="loading-cell">
+                            <div class="loader"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</main>
+<script src="~/Scripts/indexScript.js"></script>

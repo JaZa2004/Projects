@@ -1,0 +1,424 @@
+﻿#navBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 2px solid white;
+}
+
+#nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 50%;
+}
+
+    #nav a {
+        font-size: 20px;
+        color: lightblue;
+    }
+
+    #nav .active {
+        text-decoration: underline;
+    }
+
+.notification {
+    position: fixed;
+    top: 88px;
+    right: 20px;
+    padding: 15px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    z-index: 1000;
+    transition: opacity 1s ease;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+.duplicateError {
+    width: 400px;
+    height: 50px;
+    background-color: red;
+    left: 20%;
+    top: 5px;
+    border-radius: 10px;
+    position: absolute;
+}
+
+.duplicateText {
+    font-size: 18px;
+    color: white;
+}
+
+.search-container {
+    position: relative;
+    width: 70%;
+}
+
+    .search-container select {
+        width: 48%;
+        height: 50px;
+        font-size: 20px;
+        border-radius: 10px;
+        border: 1px solid #2C3E50;
+        cursor: pointer;
+    }
+
+        .search-container select:hover {
+            box-shadow: 0 0 2px 1px rgba(0, 1, 1, 0.5);
+        }
+
+    .search-container input[type="text"] {
+        height: 50px;
+        font-size: 20px;
+        border-radius: 10px;
+        border: 1px solid #2C3E50;
+        padding-left: 20px;
+    }
+
+        .search-container input[type="text"]:hover {
+            box-shadow: 0 0 2px 1px rgba(0, 1, 1, 0.5);
+        }
+
+    .search-container label {
+        font-size: 25px;
+    }
+
+#search {
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+}
+
+input[type="text"]::placeholder {
+    font-size: 20px;
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    top: 15px;
+    font-size: 20px;
+    color: #aaa;
+    cursor: pointer;
+}
+
+#addDevice {
+    width: 90%;
+    margin: 2% 0;
+    font-size: 2vw;
+    height: 50px;
+}
+
+table {
+    width: 100%;
+    font-size: 20px;
+    border-collapse: separate;
+    margin: auto;
+    border-spacing: 0px 5px;
+    padding: 5px;
+}
+
+    table th {
+        background-color: #2C3E50;
+        color: white;
+        padding: 10px;
+        font-size: 2vw;
+        text-align: start;
+    }
+
+    table tr:hover td {
+        background-color: #BFC9CA;
+    }
+
+    table td, table th {
+        padding: 15px;
+        text-align: center;
+    }
+
+    table td {
+        font-size: 2vw;
+        background-color: #D5DBDB;
+        transition: background-color 0.3s ease;
+    }
+
+    table select {
+        height: 30px;
+        font-size: 17px;
+        color: #2C3E50;
+        border-radius: 10px;
+        border-color: white;
+        cursor: pointer;
+    }
+
+    table tr:hover {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+i {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+    i:hover {
+        opacity: 0.6;
+        transform: scale(1.2);
+    }
+
+.btn-custom {
+    background-color: #008674;
+    color: white;
+    border: 2px solid #008674;
+    transition: background-color 0.5s ease-in-out, transform 0.3s ease;
+    border-radius: 10px;
+}
+
+    .btn-custom:hover {
+        background-color: white;
+        color: #008674;
+        transform: scale(1.05);
+    }
+
+td .btn {
+    padding: 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: background-color 0.3s ease-in-out;
+    min-width: 30%;
+    font-size: 12px;
+}
+
+    td .btn:hover {
+        transform: scale(1.05);
+    }
+
+.editbutton {
+    background-color: #E67E22;
+    color: white;
+    border: 2px solid #E67E22;
+}
+
+    .editbutton:hover {
+        background-color: white;
+        text-decoration: none;
+        color: #E67E22;
+    }
+
+.modal-body label {
+    font-size: 18px;
+}
+
+.modal-body input[type="text"], .modal-body select, .modal-body input[type="datetime-local"] {
+    width: 95%;
+    height: 25px;
+}
+
+    .modal-body input[type="text"]::placeholder {
+        font-size: 15px;
+    }
+
+.modal-body h4 {
+    background-color: red;
+    color: white;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.label-input {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.input-error {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    padding: 0px 10px;
+}
+
+.errorMessage {
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    color: red;
+    padding: 2px;
+    text-align: left;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    border: 3px solid black;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: white;
+}
+
+.container-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+}
+
+.btn-reserve {
+    background-color: #008674;
+    border: 2px solid #008674;
+    color: white;
+}
+
+    .btn-reserve:hover {
+        background-color: white;
+        color: #008674;
+    }
+
+.btn-unreserve {
+    background-color: #cc4c4c;
+    border: 2px solid #cc4c4c;
+    color: white;
+}
+
+    .btn-unreserve:hover {
+        background-color: white;
+        color: #cc4c4c;
+    }
+
+.ButtonsDiv {
+    width: 30%;
+}
+
+.fa {
+    color: #2C3E50;
+}
+
+h2 {
+    color: azure;
+}
+
+    h2 i {
+        margin-right: 20px;
+        padding: 10px;
+    }
+
+    h2 .fa {
+        color: white;
+    }
+
+    h2 .active {
+        text-decoration: underline;
+        opacity: 0.7;
+    }
+
+    h2 a:hover {
+        text-decoration: none;
+        opacity: 0.5;
+        color: white;
+    }
+
+    h2 a {
+        text-decoration: none;
+        color: white;
+        transition: 0.3s ease;
+    }
+
+.loader {
+    border: 12px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    animation: spin 1s ease-in-out infinite;
+    margin: 0 auto;
+}
+
+.loading-cell {
+    text-align: center;
+    height: 100px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+td span {
+    cursor: pointer;
+}
+
+    td span:hover {
+        opacity: 0.7;
+    }
+
+.subdata-table {
+    margin: 0px;
+    background-color: #2C3E50;
+    padding: 30px;
+}
+
+    .subdata-table th {
+        padding: 3px;
+        margin: 0px;
+        background-color: #E67E22;
+    }
+
+    .subdata-table td {
+        padding: 3px;
+        margin: 0px;
+    }
+
+.arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.arrow-rotated {
+    transform: rotate(90deg);
+}
+
+@keyframes slideDown {
+    from {
+        max-height: 0;
+        opacity: 0;
+    }
+
+    to {
+        max-height: 500px;
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        max-height: 500px;
+        opacity: 1;
+    }
+
+    to {
+        max-height: 0;
+        opacity: 0;
+    }
+}
+
+.subdata-table {
+    overflow: hidden;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+}
+
+.slide-down {
+    animation: slideDown 1s forwards;
+}
+
+.slide-up {
+    animation: slideUp 1s forwards;
+}

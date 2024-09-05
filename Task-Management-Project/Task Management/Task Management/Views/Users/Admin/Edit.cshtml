@@ -1,0 +1,149 @@
+﻿@model Task_Management.Models.User
+
+@{
+    ViewData["Title"] = "Edit User";
+    var user = ViewData["user"] as Task_Management.Models.User;
+}
+
+<h1 class="my-4 text-center">Edit User</h1>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h4>Edit User</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" method="post">
+                        <input type="hidden" asp-for="@user.UserId" />
+
+                        <div class="form-group">
+                            <label asp-for="@user.Username" class="control-label"></label>
+                            <input asp-for="@user.Username" class="form-control" placeholder="Username"/>
+                            <span asp-validation-for="@user.Username" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="@user.Password" class="control-label"></label>
+                            <input asp-for="@user.Password" type="password" class="form-control" value="@user.Password" placeholder="Password"/>
+                            <span asp-validation-for="@user.Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="@user.Role" class="control-label"></label>
+                            <select asp-for="@user.Role" class="form-control">
+                                <option value="Employee">Employee</option>
+                                <option value="Admin">Admin</option>
+                            </select>
+                            <span asp-validation-for="@user.Role" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="@user.FirstName" class="control-label"></label>
+                            <input asp-for="@user.FirstName" class="form-control" placeholder="First Name"/>
+                            <span asp-validation-for="@user.FirstName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="@user.LastName" class="control-label"></label>
+                            <input asp-for="@user.LastName" class="form-control" placeholder="Last Name"/>
+                            <span asp-validation-for="@user.LastName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="@user.Email" class="control-label"></label>
+                            <input asp-for="@user.Email" type="email" class="form-control" placeholder="Email"/>
+                            <span asp-validation-for="@user.Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="@user.PhoneNumber" class="control-label"></label>
+                            <input asp-for="@user.PhoneNumber" class="form-control" placeholder="Phone Number"/>
+                            <span asp-validation-for="@user.PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="@user.DateOfBirth" class="control-label"></label>
+                            <input asp-for="@user.DateOfBirth" type="date" class="form-control" />
+                            <span asp-validation-for="@user.DateOfBirth" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="@user.DateOfJoining" class="control-label"></label>
+                            <input asp-for="@user.DateOfJoining" type="date" class="form-control" />
+                            <span asp-validation-for="@user.DateOfJoining" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if(User.IsInRole("Admin"))
+    {
+        <div class="text-center mt-4">
+            <a asp-action="IndexAdmin" class="btn btn-secondary">Back to List</a>
+        </div>
+    }
+    else
+    {
+        <div class="text-center mt-4">
+            <a href="/Tasks/Index" class="btn btn-secondary">Back</a>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    .card {
+        border-radius: 10px;
+    }
+
+    .card-header {
+        border-radius: 10px 10px 0 0;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .btn {
+        border-radius: 20px;
+        margin: 5px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    h1 {
+        font-family: 'Arial Black', Gadget, sans-serif;
+        color: #343a40;
+    }
+
+</style>

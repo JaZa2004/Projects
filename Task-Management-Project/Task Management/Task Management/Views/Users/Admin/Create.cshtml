@@ -1,0 +1,177 @@
+﻿@model Task_Management.Models.User
+
+@{
+    ViewData["Title"] = "Create User";
+}
+
+<h1 class="my-4 text-center">Create User</h1>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h4>Create User</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group row">
+                            <label asp-for="Username" class="col-sm-3 col-form-label control-label">Username</label>
+                            <div class="col-sm-9">
+                                <input asp-for="Username" class="form-control" placeholder="Username">
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="Password" class="col-sm-3 col-form-label control-label">Password</label>
+                            <div class="col-sm-9">
+                                <input type="password" id="password" asp-for="Password" class="form-control" placeholder="Password">
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="Role" class="col-sm-3 col-form-label control-label">Role</label>
+                            <div class="col-sm-9">
+                                <select asp-for="Role" class="form-control">
+                                    <option value="Employee">Employee</option>
+                                    <option value="Admin">Admin</option>
+                                </select>
+                                <span asp-validation-for="Role" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="FirstName" class="col-sm-3 col-form-label control-label">First Name</label>
+                            <div class="col-sm-9">
+                                <input asp-for="FirstName" class="form-control" placeholder="First Name" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="LastName" class="col-sm-3 col-form-label control-label">Last Name</label>
+                            <div class="col-sm-9">
+                                <input asp-for="LastName" class="form-control" placeholder="Last Name" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="Email" class="col-sm-3 col-form-label control-label">Email</label>
+                            <div class="col-sm-9">
+                                <input asp-for="Email" class="form-control" placeholder="Email" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="PhoneNumber" class="col-sm-3 col-form-label control-label">Phone Number</label>
+                            <div class="col-sm-9">
+                                <input asp-for="PhoneNumber" class="form-control" placeholder="Phone Number" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="DateOfBirth" class="col-sm-3 col-form-label control-label">Date of Birth</label>
+                            <div class="col-sm-9">
+                                <input type="date" asp-for="DateOfBirth" class="form-control" />
+                                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label asp-for="DateOfJoining" class="col-sm-3 col-form-label control-label">Date of Joining</label>
+                            <div class="col-sm-9">
+                                <input type="date" asp-for="DateOfJoining" class="form-control" />
+                                <span asp-validation-for="DateOfJoining" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="offset-sm-3 col-sm-9 text-center">
+                                <button type="submit" class="btn btn-primary btn-lg mt-2">Create</button>
+                                <button type="button" class="btn btn-secondary mt-2" onclick="window.history.back();">Back</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="IndexAdmin" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    .card {
+        border-radius: 10px;
+        border: none;
+    }
+
+    .card-header {
+        border-radius: 10px 10px 0 0;
+    }
+
+    .card-body {
+        padding: 30px;
+    }
+
+    .form-group.row {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        padding: 10px;
+        transition: border-color .3s;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0,123,255,.5);
+        }
+
+    .btn {
+        border-radius: 20px;
+        min-width: 80px;
+        margin-top: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    h1 {
+        font-family: 'Arial Black', Gadget, sans-serif;
+        color: #343a40;
+    }
+</style>

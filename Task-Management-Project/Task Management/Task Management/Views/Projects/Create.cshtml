@@ -1,0 +1,110 @@
+﻿@model Task_Management.Models.Project
+@{
+    ViewData["Title"] = "Create Project";
+}
+
+<h1 class="my-4 text-center">Create Project</h1>
+
+<div class="container">
+    <div class="card shadow-sm" style="border-radius:0">
+        <div class="card-header bg-dark text-white">
+            <h4>Create New Project</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Project Name</label>
+                    <div class="col-sm-9">
+                        <input asp-for="ProjectName" class="form-control" placeholder="Project Name" />
+                        <span asp-validation-for="ProjectName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Description</label>
+                    <div class="col-sm-9">
+                        <input asp-for="Description" class="form-control" placeholder="Project Description" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Created Date</label>
+                    <div class="col-sm-9">
+                        <input asp-for="CreatedDate" class="form-control" />
+                        <span asp-validation-for="CreatedDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">End Date</label>
+                    <div class="col-sm-9">
+                        <input asp-for="EndDate" class="form-control" />
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="offset-sm-3 col-sm-9">
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<style>
+    .card {
+        border-radius: 10px;
+    }
+
+    .card-header {
+        border-radius: 10px 10px 0 0;
+    }
+
+    .card-footer {
+        border-radius: 0 0 10px 10px;
+        background-color: #f8f9fa;
+        padding: 10px 20px;
+    }
+
+    .btn {
+        border-radius: 20px;
+        margin-right: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+
+    .form-group.row {
+        margin-bottom: 15px;
+    }
+
+    h1 {
+        font-family: 'Arial Black', Gadget, sans-serif;
+        color: #343a40;
+    }
+</style>

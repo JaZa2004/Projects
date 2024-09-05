@@ -1,0 +1,58 @@
+h1[b-utcittyl73] {
+    font-family: 'Arial Black', Gadget, sans-serif;
+    color: #343a40;
+}
+
+.table[b-utcittyl73] {
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.table th[b-utcittyl73] {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.btn[b-utcittyl73] {
+    border-radius: 50px;
+}
+
+.btn-primary[b-utcittyl73] {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover[b-utcittyl73] {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.btn-warning[b-utcittyl73] {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-warning:hover[b-utcittyl73] {
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+
+.btn-info[b-utcittyl73] {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-info:hover[b-utcittyl73] {
+    background-color: #138496;
+    border-color: #117a8b;
+}
+
+.btn-danger[b-utcittyl73] {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover[b-utcittyl73] {
+    background-color: #c82333;
+    border-color: #bd2130;
+}

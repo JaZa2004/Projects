@@ -1,0 +1,191 @@
+﻿@model Task_Management.Models.Task
+
+@{
+    ViewData["Title"] = "Edit Task";
+    var task = ViewData["task"] as Task_Management.Models.Task;
+    var employees = ViewData["employees"] as List<Task_Management.Models.User>;
+}
+
+<a href="/Tasks/ViewProjectTasks/@task.ProjectId"<button type="button" class="btn btn-secondary">Back</button></a>
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Task Details -->
+        <div class="col-lg-8">
+            <!-- Admin Section -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4>@task.TaskName</h4>
+                </div>
+                <div class="card-body">
+                    <form action="/Tasks/EditTaskAdmin/@task.TaskId" method="post">
+                        <div class="form-group">
+                            <label for="AssignedUserId">Assign Employee</label>
+                            <select id="AssignedUserId" name="AssignedUserId" class="form-control" @(task.AssignedUser != null ? "disabled" : "")>
+                                <option value="" selected>Assign Employee for this task</option>
+                                @foreach (var employee in employees)
+                                {
+                                    @if (task.AssignedUserId != null && task.AssignedUserId == employee.UserId)
+                                    {
+                                        <option value="@employee.UserId" selected>@employee.Username (Already Assigned for this Task)</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@employee.UserId">@employee.Username</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group mt-4">
+                            <label>Approve Task</label><br />
+                            @if (task.CompletedByEmployee == false)
+                            {
+                                <input type="radio" id="approve" name="ApprovedByAdmin" value="Approved" disabled>
+                                <label for="approve">Approve (You can't approve until the employee finishes their task)</label>
+                                <br>
+                                <input type="radio" id="disapprove" name="ApprovedByAdmin" disabled value="NotApproved">
+                                <label for="disapprove">Disapprove</label>
+                                <br />
+                                <input type="hidden" value="@task.ApprovedByAdmin" name="ApprovedByAdmin" />
+                            }
+                            else
+                            {
+                                <input type="radio" id="approve" name="ApprovedByAdmin" value="Approved" @(task.ApprovedByAdmin == "Approved" ? "checked" : "") />
+                                <label for="approve">Approve</label>
+                                <br />
+                                <input type="radio" id="disapprove" name="ApprovedByAdmin" value="NotApproved" @(task.ApprovedByAdmin == "NotApproved" ? "checked" : "") />
+                                <label for="disapprove">Disapprove</label>
+                            }
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Save</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Comments Section -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Comments</h5>
+                </div>
+                <div class="card-body">
+                    @if (task.Comments == null || !task.Comments.Any())
+                    {
+                        <p class="card-text">No comments yet.</p>
+                    }
+                    else
+                    {
+                        @foreach (var comment in task.Comments)
+                        {
+                            <div class="media mb-3">
+                                <div class="media-body">
+                                    <h6 class="mt-0">
+                                        @comment.User.Username
+                                        <span class="badge badge-role">
+                                            @(comment.User.Role == "Admin" ? "By Admin" : "By Employee")
+                                        </span>
+                                    </h6>
+                                    <p class="text-muted">@comment.CreatedDate.ToString("yyyy-MM-dd")</p>
+                                    <hr />
+                                    <p>@comment.Text</p>
+
+                                    @if (User.IsInRole("Admin") || User.Identity.Name == comment.User.Username)
+                                    {
+                                        <form asp-action="Delete" asp-route-id="@comment.CommentId" method="post">
+                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                        </form>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+
+            <!-- Add Comment Form -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Add a Comment</h5>
+                </div>
+                <div class="card-body">
+                    <form action="/Comments/AddComment" method="post">
+                        <div class="form-group">
+                            <textarea name="Text" id="Text" class="form-control" rows="3" required placeholder="Type in something about this Task..."></textarea>
+                            <span class="text-danger">@ViewData["TextError"]</span>
+                        </div>
+                        <input type="hidden" name="TaskId" value="@task.TaskId" />
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar with Task Info -->
+        <div class="col-lg-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Task Info</h5>
+                </div>
+                <div class="card-body">
+                    @if (task.AssignedUser != null)
+                    {
+                        <p class="card-text"><strong>Assigned To:</strong> @task.AssignedUser.Username</p>
+                    }
+                    else
+                    {
+                        <p class="card-text"><strong>Assigned To:</strong> Not Assigned</p>
+                    }
+                    <p class="card-text"><strong>Deadline Date:</strong> @task.DeadlineDate?.ToString("yyyy-MM-dd")</p>
+                    <hr>
+                    <p class="card-text"><strong>Project:</strong> @task.Project.ProjectName</p>
+                    <p class="card-text"><strong>Project Description:</strong> @task.Project.Description</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .card {
+        border-radius: 10px;
+        border: none;
+    }
+
+    .card-header {
+        border-radius: 10px 10px 0 0;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .btn {
+        border-radius: 20px;
+        margin-top: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    .media {
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .badge-role {
+        font-size: 1em;
+        background-color: #6c757d;
+        color: #fff;
+        border-radius: 3px;
+        padding: 5px 10px;
+        margin-left: 10px;
+        font-weight: bold;
+    }
+
+</style>

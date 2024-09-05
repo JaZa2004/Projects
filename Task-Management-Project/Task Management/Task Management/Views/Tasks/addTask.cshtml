@@ -1,0 +1,141 @@
+﻿@model Task_Management.Models.Task
+@{
+    ViewData["Title"] = "Create Task";
+    var users = ViewData["employees"] as List<User>;
+    var project = ViewData["project"] as Project;
+}
+
+<h1 class="my-4 text-center">Create Task</h1>
+
+<div class="container">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h4>Create Task for @project.ProjectName</h4>
+        </div>
+        <div class="card-body">
+            <form action="/Tasks/AddTask" method="post">
+                <div class="form-group row">
+                    <label for="TaskName" class="col-sm-3 col-form-label">Task Name</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="TaskName" name="TaskName" class="form-control" required maxlength="100" placeholder="Task Name" />
+                        <span asp-validation-for="TaskName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="Description" class="col-sm-3 col-form-label">Description</label>
+                    <div class="col-sm-9">
+                        <textarea id="Description" name="Description" class="form-control" maxlength="500" placeholder="Task Description"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <input type="hidden" id="ProjectId" name="ProjectId" value="@project.ProjectId" />
+
+                <div class="form-group row">
+                    <label for="AssignedTo" class="col-sm-3 col-form-label">Assigned To</label>
+                    <div class="col-sm-9">
+                        <select id="AssignedTo" name="AssignedUserId" class="form-control">
+                            <option value="">Select an Employee</option>
+                            @foreach (var user in users)
+                            {
+                                <option value="@user.UserId">@user.Username</option>
+                            }
+                        </select>
+                        <span asp-validation-for="AssignedUserId" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="CreatedDate" class="col-sm-3 col-form-label">Created Date</label>
+                    <div class="col-sm-9">
+                        <input type="date" id="CreatedDate" name="CreatedDate" class="form-control" required />
+                        <span asp-validation-for="CreatedDate" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="Deadline" class="col-sm-3 col-form-label">Deadline Date</label>
+                    <div class="col-sm-9">
+                        <input type="date" id="Deadline" name="DeadlineDate" class="form-control" required />
+                        <span asp-validation-for="DeadlineDate" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="offset-sm-3 col-sm-9">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <button type="button" class="btn btn-secondary" onclick="window.history.back();">Back</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    h1 {
+        font-family: 'Arial Black', Gadget, sans-serif;
+        color: #343a40;
+    }
+
+    .card {
+        border-radius: 10px;
+        border: none;
+    }
+
+    .card-header {
+        border-radius: 10px 10px 0 0;
+    }
+
+    .card-body {
+        padding: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        padding: 10px;
+        transition: border-color .3s;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0,123,255,.5);
+        }
+
+    .btn {
+        border-radius: 20px;
+        min-width: 80px;
+        margin-top: 10px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+</style>

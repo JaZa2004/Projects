@@ -1,0 +1,167 @@
+﻿@{
+    ViewBag.Title = "Clients";
+}
+<link href="~/Content/indexStyle.css" rel="stylesheet" />
+<main ng-app="clientApp">
+    <h2><i class="fa fa-user"></i>Clients Page</h2>
+    <div ng-controller="ClientController" class="container">
+        <div class="notification" ng-if="notificationMessage" ng-class="{'fade-out': fadeOut}">
+            {{ notificationMessage }}
+        </div>
+        <div class="container-header">
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Type here..." ng-model="searchtext">
+                <i class="fa fa-search search-icon" ng-click="searchClient()"></i>
+            </div>
+            <div class="ButtonsDiv">
+                <button id="addDevice" class="btn btn-custom" ng-click="openModal()">Add a new Client</button>
+            </div>
+        </div>
+        <script type="text/ng-template" id="clientModal.html">
+            <div class="duplicateError" ng-show="DuplicateFound">
+                <p class="duplicateText">Couldn't Complete Operation ! A Client with the Same Name is Found</p>
+            </div>
+            <div class="modal-header">
+                <h3 class="modal-title">{{modalTitle}}</h3>
+            </div>
+            <div class="modal-body" style="text-align:left">
+                <div class="label-input">
+                    <label for="clientName">Client Name:</label>
+                    <div class="input-error">
+                        <input type="text" ng-model="client.Name" id="clientName" required placeholder="Fill in the Name" ng-change="DisableButton()">
+                        <div ng-if="errorMessageName && clicked && !client.Name">
+                            <p class="errorMessage" ng-bind="errorMessageName"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="label-input">
+                    <label>Client Type:</label>
+                    <div class="input-error">
+                        <client-type-selector selected-type="client.Type"></client-type-selector>
+                        <div ng-if="errorMessageType && clicked && !client.Type">
+                            <p class="errorMessage" ng-bind="errorMessageType"></p>
+                        </div>
+                    </div>
+                </div>
+                <div ng-hide="client.Type == '' || client.Type==1" class="label-input">
+                    <label for="birthDate">Birth Date:</label>
+                    <div class="input-error">
+                        <input type="datetime-local" ng-model="client.BirthDate" id="birthDate">
+                        <div ng-if="errorMessageDate">
+                            <p class="errorMessage" ng-bind="errorMessageDate"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="save()" ng-disabled="ButtonDisable">OK</button>
+                <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+            </div>
+        </script>
+        <script type="text/ng-template" id="ReserveModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Reserve Number</h3>
+            </div>
+            <div class="modal-body" style="text-align:left">
+                <div class="label-input" style="flex-direction:column;">
+                    <label for="Number">Available Phone Numbers:</label>
+                    <div class="input-error">
+                        <phone-number-selector selected-phone-number="PhoneNumberReserved" phone-numbers="phoneNumbersNotReserved"></phone-number-selector>
+                        <div ng-if="errorMessageNumber && clicked && !PhoneNumberReserved">
+                            <p class="errorMessage" ng-bind="errorMessageNumber"></p>
+                        </div>
+                    </div>
+                </div>
+                <h4 ng-if="PhoneNumberReserved!=''">You are Reserving the PhoneNumber {{PhoneNumberReserved.Number}} to Client {{clientName}}</h4>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="save()">OK</button>
+                <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+            </div>
+        </script>
+
+
+        <script type="text/ng-template" id="UnreserveModal.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Unreserve Number</h3>
+            </div>
+            <div class="modal-body" style="text-align:left">
+                <div class="label-input" style="flex-direction:column;">
+                    <label for="Number">Choose from the Numbers Reserved By {{clientName}}:</label>
+                    <div class="input-error">
+                        <phone-number-selector selected-phone-number="PhoneNumberUnreserved" phone-numbers="phoneNumbersReservedByClient"></phone-number-selector>
+                        <div ng-if="errorMessageNumber && clicked && !PhoneNumberUnreserved">
+                            <p class="errorMessage" ng-bind="errorMessageNumber"></p>
+                        </div>
+                    </div>
+                </div>
+                <h4 ng-if="PhoneNumberUnreserved!=''">PhoneNumber {{PhoneNumberUnreserved.Number}} will no longer be for Client {{clientName}}</h4>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="save()">OK</button>
+                <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+            </div>
+        </script>
+
+
+        <div class="container-body">
+            <table id="DevicesTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>
+                            Type
+                            <client-type-selector selected-type="typeSearchValue" on-change="TypeSearch()"></client-type-selector>
+                        </th>
+                        <th>Birth Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat-start="client in filteredClients track by $index" ng-if="!loading">
+                        <td><span ng-if="client.ReservedPhoneNumbers.length>0" ng-click="togglePhoneNumbers(client,$index)" class="arrow" ng-class="{'arrow-rotated': client.showPhoneNumbers}">▶</span></td>
+                        <td style="font-weight:bold;">{{client.Id}}</td>
+                        <td>{{client.Name}}</td>
+                        <td>{{client.Type == 0 ? 'Individual' : 'Organization'}}</td>
+                        <td>{{ client.BirthDate ? (client.BirthDate | date:'dd/MM/yyyy  hh:mm a') : '' }}</td>
+                        <td style="padding:20px;width:30%">
+                            <button class="btn editbutton" style="width:30%" ng-click="openModal(client)" ng-disabled="isDisabled($index)">Edit</button>
+                            <button class="btn btn-reserve" ng-click="openReserveModal(client)">Reserve</button>
+                            <button class="btn btn-unreserve" ng-if="client.ReservedPhoneNumbers && client.ReservedPhoneNumbers.length > 0" ng-click="openUnreserveModal(client)">Unreserve</button>
+                        </td>
+                    </tr>
+                    <tr ng-repeat-end ng-if="client.showPhoneNumbers && client.ReservedPhoneNumbers.length > 0" ng-class="{'slide-down': client.showPhoneNumbers, 'slide-up': !client.showPhoneNumbers}">
+                        <td colspan="6" class="td-subdata">
+                            <table class="subdata-table">
+                                <thead>
+                                    <tr>
+                                        <th>Number</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="phone in client.ReservedPhoneNumbers">
+                                        <td>{{ phone.Number }}</td>
+                                        <td>
+                                            <button class="btn editbutton" ng-click="openPhoneModal(phone)">Edit</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr ng-if="loading">
+                        <td colspan="6" class="loading-cell">
+                            <div class="loader"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+<script src="~/Scripts/clientScript.js"></script>
+<script src="~/Scripts/ClientTypeSelector.js"></script>
+<script src="~/Scripts/PhoneNumberSelector.js"></script>

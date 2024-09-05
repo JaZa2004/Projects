@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Reservations";
+}
+<link href="~/Content/indexStyle.css" rel="stylesheet" />
+<main ng-app="ReservationsApp">
+    <h2>
+        <i class="fa fa-calendar"></i>
+        Reservations Page
+    </h2>
+    <div ng-controller="ReservationsController" class="container">
+        <div class="container-header">
+            <div class="search-container" style="width:100%">
+                <client-selector selected-client ="searchClient" on-filter-change="filter()"></client-selector>
+                <phone-number-selector selected-phone-number="searchphoneNumber" on-filter-change="filter()"phone-numbers="phoneNumbers"></phone-number-selector>
+            </div>
+        </div>
+        <div class="container-body">
+            <table id="DevicesTable">
+                <tr>
+                    <th>ID</th>
+                    <th>Client</th>
+                    <th>Phone Number</th>
+                    <th>Begin Effective Day</th>
+                    <th>End Effective Day</th>
+                </tr>
+                <tr ng-repeat="reservation in filteredreservations" ng-if="!loading">
+                    <td ng-bind="reservation.Id" style="font-weight:bold;"></td>
+                    <td ng-bind="reservation.client.Name"></td>
+                    <td ng-bind="reservation.phonenumber.Number"></td>
+                    <td>{{reservation.BED | date:'dd/MM/yyyy'}}</td>
+                    <td>{{reservation.EED | date:'dd/MM/yyyy'}}</td>
+                </tr>
+                <tr ng-if="filteredreservations.length === 0 && !loading">
+                    <td colspan="5">No reservations found.</td>
+                </tr>
+                <tr ng-if="loading">
+                    <td colspan="5" class="loading-cell">
+                        <div class="loader"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</main>
+<script src="~/Scripts/reservations.js"></script>
+<script src="~/Scripts/PhoneNumberSelector.js"></script>
+<script src="~/Scripts/ClientSelector.js"></script>

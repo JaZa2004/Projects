@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "ClientReport";
+}
+
+<link href="~/Content/indexStyle.css" rel="stylesheet" />
+<main ng-app="ClientReportApp">
+    <h2>
+    <i class="fa fa-file-text"></i>
+    <a href="/Home/ClientReport" class="@(ViewBag.Title=="ClientReport"? "active" :"")">Client Report</a>  |  <a href="/Home/DeviceReport">Device Report</a>
+    </h2>
+    <div ng-controller="ClientReportController" class="container">
+        <div class="container-header">
+            <div class="search-container" style="width:100%;">
+                <label>Filter Results According to Client Type </label>
+                <client-type-selector selected-type="ClientType" on-change="filter()"></client-type-selector>
+            </div>
+        </div>
+        <div class="container-body">
+            <table id="DevicesTable">
+                <tr>
+                    <th>Client Type</th>
+                    <th>Number of Clients</th>
+                </tr>
+                <tr ng-repeat="statistic in filteredstatistics" ng-if="!loading">
+                    <td>{{statistic.Type == 0 ? 'Individual' : 'Organization'}}</td>
+                    <td>{{statistic.nbIndividuals}}</td>
+                </tr>
+                <tr ng-if="loading">
+                    <td colspan="5" class="loading-cell">
+                        <div class="loader"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</main>
+<script src="~/Scripts/clientReportScript.js"></script>
+<script src="~/Scripts/ClientTypeSelector.js"></script>
+
